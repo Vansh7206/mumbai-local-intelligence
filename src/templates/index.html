@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mumbai Local — Route Planner</title>
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: #f8f9fa;
+            color: #202124;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* TOP NAV */
+        .nav {
+            background: white;
+            border-bottom: 1px solid #e8eaed;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+        }
+
+        .nav-icon {
+            width: 32px;
+            height: 32px;
+            background: #1a73e8;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+
+        .nav-title {
+            font-family: 'Google Sans', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: #202124;
+        }
+
+        .nav-subtitle {
+            font-size: 0.8rem;
+            color: #5f6368;
+            margin-left: 4px;
+        }
+
+        /* LAYOUT */
+        .layout {
+            display: flex;
+            flex: 1;
+            height: calc(100vh - 56px);
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            width: 380px;
+            background: white;
+            border-right: 1px solid #e8eaed;
+            overflow-y: auto;
+            flex-shrink: 0;
+        }
+
+        .sidebar-inner { padding: 20px; }
+
+        /* SEARCH BOX */
+        .search-section {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+            border: 1px solid #e8eaed;
+        }
+
+        .search-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .search-row:last-child { margin-bottom: 0; }
+
+        .search-icon {
+            width: 20px;
+            text-align: center;
+            font-size: 14px;
+            color: #5f6368;
+            flex-shrink: 0;
+        }
+
+        .search-wrap { position: relative; flex: 1; }
+
+        .search-input {
+            width: 100%;
+            background: white;
+            border: 1px solid #e8eaed;
+            border-radius: 8px;
+            color: #202124;
+            font-family: 'Roboto', sans-serif;
+            font-size: 0.9rem;
+            padding: 10px 14px;
+            transition: all 0.2s;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #1a73e8;
+            box-shadow: 0 0 0 3px rgba(26,115,232,0.1);
+        }
+
+        .search-divider {
+            height: 1px;
+            background: #e8eaed;
+            margin: 8px 0 8px 30px;
+        }
+
+        .dropdown-list {
+            display: none;
+            position: absolute;
+            top: calc(100% + 4px);
+            left: 0;
+            right: 0;
+            background: white;
+            border: 1px solid #e8eaed;
+            border-radius: 8px;
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 200;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+        }
+
+        .dropdown-list.open { display: block; }
+
+        .dropdown-item {
+            padding: 10px 14px;
+            font-size: 0.88rem;
+            cursor: pointer;
+            color: #202124;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .dropdown-item::before {
+            content: '🚉';
+            font-size: 12px;
+        }
+
+        .dropdown-item:hover {
+            background: #f0f7ff;
+            color: #1a73e8;
+        }
+
+        .hidden-select { display: none; }
+
+        /* HOUR */
+        .hour-section { margin-bottom: 16px; }
+
+        .hour-label {
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: #5f6368;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 10px;
+        }
+
+        .hour-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .chip {
+            padding: 6px 14px;
+            background: white;
+            border: 1px solid #dadce0;
+            border-radius: 100px;
+            font-size: 0.8rem;
+            color: #5f6368;
+            cursor: pointer;
+            transition: all 0.15s;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .chip:hover, .chip.active {
+            background: #e8f0fe;
+            border-color: #1a73e8;
+            color: #1a73e8;
+        }
+
+        .hour-input-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .hour-input-row label {
+            font-size: 0.82rem;
+            color: #5f6368;
+            white-space: nowrap;
+        }
+
+        input[type="number"] {
+            width: 80px;
+            background: white;
+            border: 1px solid #dadce0;
+            border-radius: 8px;
+            color: #202124;
+            font-family: 'Roboto', sans-serif;
+            font-size: 0.9rem;
+            padding: 8px 12px;
+        }
+
+        input[type="number"]:focus {
+            outline: none;
+            border-color: #1a73e8;
+            box-shadow: 0 0 0 3px rgba(26,115,232,0.1);
+        }
+
+        /* SUBMIT */
+        .submit-btn {
+            width: 100%;
+            padding: 12px;
+            background: #1a73e8;
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-family: 'Google Sans', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .submit-btn:hover {
+            background: #1557b0;
+            box-shadow: 0 2px 8px rgba(26,115,232,0.3);
+        }
+
+        /* RESULT PANEL */
+        .result-panel {
+            margin-top: 20px;
+            border-top: 1px solid #e8eaed;
+            padding-top: 20px;
+        }
+
+        .result-summary {
+            background: #e8f0fe;
+            border-radius: 10px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+
+        .result-route-title {
+            font-family: 'Google Sans', sans-serif;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #1a73e8;
+            margin-bottom: 12px;
+        }
+
+        .summary-stats {
+            display: flex;
+            gap: 20px;
+        }
+
+        .s-stat { }
+        .s-val {
+            font-family: 'Google Sans', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #202124;
+        }
+        .s-lbl {
+            font-size: 0.72rem;
+            color: #5f6368;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+
+        /* STOPS */
+        .stops-title {
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: #5f6368;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 12px;
+        }
+
+        .stop {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px solid #f1f3f4;
+            position: relative;
+        }
+
+        .stop:last-child { border-bottom: none; }
+
+        .stop-left {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 20px;
+            flex-shrink: 0;
+        }
+
+        .stop-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            border: 2px solid #dadce0;
+            background: white;
+            flex-shrink: 0;
+        }
+
+        .stop:first-child .stop-dot { border-color: #1a73e8; background: #1a73e8; }
+        .stop:last-child .stop-dot { border-color: #ea4335; background: #ea4335; }
+
+        .stop-info { flex: 1; }
+
+        .stop-name {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #202124;
+        }
+
+        .stop-line {
+            font-size: 0.75rem;
+            color: #5f6368;
+            margin-top: 1px;
+        }
+
+        .line-pill {
+            font-size: 0.68rem;
+            font-weight: 500;
+            padding: 2px 8px;
+            border-radius: 4px;
+            margin-right: 4px;
+        }
+
+        .western-pill { background: #e8f0fe; color: #1a73e8; }
+        .central-pill { background: #fce8e6; color: #ea4335; }
+        .harbour-pill { background: #e6f4ea; color: #34a853; }
+
+        .delay-badge {
+            font-size: 0.78rem;
+            font-weight: 500;
+            padding: 3px 10px;
+            border-radius: 100px;
+            flex-shrink: 0;
+        }
+
+        .d-low { background: #e6f4ea; color: #34a853; }
+        .d-mid { background: #fef7e0; color: #f9ab00; }
+        .d-high { background: #fce8e6; color: #ea4335; }
+
+        /* RIGHT PANEL - MAP PLACEHOLDER */
+        .map-panel {
+            flex: 1;
+            background: #e8eaed;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 12px;
+            color: #5f6368;
+        }
+
+        .map-panel-icon { font-size: 48px; }
+        .map-panel-text { font-size: 0.9rem; }
+
+        /* SCROLLBAR */
+        .sidebar::-webkit-scrollbar { width: 6px; }
+        .sidebar::-webkit-scrollbar-track { background: transparent; }
+        .sidebar::-webkit-scrollbar-thumb { background: #dadce0; border-radius: 4px; }
+        .dropdown-list::-webkit-scrollbar { width: 4px; }
+        .dropdown-list::-webkit-scrollbar-thumb { background: #dadce0; border-radius: 4px; }
+
+        @media (max-width: 600px) {
+            .layout { flex-direction: column; height: auto; }
+            .sidebar { width: 100%; border-right: none; border-bottom: 1px solid #e8eaed; }
+            .map-panel { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- NAV -->
+<div class="nav">
+    <div class="nav-icon">🚆</div>
+    <div>
+        <span class="nav-title">Mumbai Local</span>
+        <span class="nav-subtitle">Route Planner</span>
+    </div>
+</div>
+
+<div class="layout">
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+        <div class="sidebar-inner">
+            <form method="POST" id="mainForm">
+
+                <!-- STATION SEARCH -->
+                <div class="search-section">
+                    <div class="search-row">
+                        <div class="search-icon">🔵</div>
+                        <div class="search-wrap">
+                            <input class="search-input" type="text" placeholder="From station" id="srcInput" autocomplete="off">
+                            <div class="dropdown-list" id="srcDropdown">
+                                {% for s in stations %}
+                                <div class="dropdown-item" data-value="{{ s }}">{{ s }}</div>
+                                {% endfor %}
+                            </div>
+                            <select name="source" class="hidden-select" id="srcSelect">
+                                {% for s in stations %}
+                                <option value="{{ s }}" {% if request.form.get('source') == s %}selected{% endif %}>{{ s }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="search-divider"></div>
+
+                    <div class="search-row">
+                        <div class="search-icon">🔴</div>
+                        <div class="search-wrap">
+                            <input class="search-input" type="text" placeholder="To station" id="dstInput" autocomplete="off">
+                            <div class="dropdown-list" id="dstDropdown">
+                                {% for s in stations %}
+                                <div class="dropdown-item" data-value="{{ s }}">{{ s }}</div>
+                                {% endfor %}
+                            </div>
+                            <select name="destination" class="hidden-select" id="dstSelect">
+                                {% for s in stations %}
+                                <option value="{{ s }}" {% if request.form.get('destination') == s %}selected{% endif %}>{{ s }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- HOUR -->
+                <div class="hour-section">
+                    <div class="hour-label">Time of Travel</div>
+                    <div class="hour-chips">
+                        <span class="chip" onclick="setHour(8, this)">Morning Peak</span>
+                        <span class="chip" onclick="setHour(13, this)">Afternoon</span>
+                        <span class="chip" onclick="setHour(18, this)">Evening Peak</span>
+                        <span class="chip" onclick="setHour(22, this)">Night</span>
+                    </div>
+                    <div class="hour-input-row">
+                        <label>Custom hour:</label>
+                        <input type="number" name="hour" id="hourInput" min="0" max="23" value="{{ request.form.get('hour', '8') }}">
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-btn">
+                    <span>🗺️</span> Get Route & Delay Forecast
+                </button>
+            </form>
+
+            <!-- RESULT -->
+            {% if result %}
+            <div class="result-panel">
+                <div class="result-summary">
+                    <div class="result-route-title">
+                        {{ result.path[0].station }} → {{ result.path[-1].station }}
+                    </div>
+                    <div class="summary-stats">
+                        <div class="s-stat">
+                            <div class="s-val">{{ result.path|length }}</div>
+                            <div class="s-lbl">Stops</div>
+                        </div>
+                        <div class="s-stat">
+                            <div class="s-val">{{ result.total_time }} min</div>
+                            <div class="s-lbl">Travel Time</div>
+                        </div>
+                        <div class="s-stat">
+                            <div class="s-val">{{ result.total_delay }} min</div>
+                            <div class="s-lbl">Max Delay</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stops-title">Route Stops</div>
+
+                {% for stop in result.path %}
+                <div class="stop">
+                    <div class="stop-left">
+                        <div class="stop-dot"></div>
+                    </div>
+                    <div class="stop-info">
+                        <div class="stop-name">{{ stop.station }}</div>
+                        <div class="stop-line">
+                            <span class="line-pill {% if 'Western' in stop.line %}western-pill{% elif 'Central' in stop.line %}central-pill{% else %}harbour-pill{% endif %}">
+                                {{ stop.line }}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="delay-badge {% if stop.delay <= 3 %}d-low{% elif stop.delay <= 7 %}d-mid{% else %}d-high{% endif %}">
+                        +{{ stop.delay }} min
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- MAP PANEL -->
+    <div class="map-panel">
+        {% if result %}
+        <div class="map-panel-icon">🗺️</div>
+        <div class="map-panel-text">{{ result.path|length }} stops · {{ result.total_time }} min journey</div>
+        <div style="font-size:0.8rem;color:#9aa0a6">Map visualization coming soon</div>
+        {% else %}
+        <div class="map-panel-icon">🚆</div>
+        <div class="map-panel-text">Enter stations to find your route</div>
+        <div style="font-size:0.8rem;color:#9aa0a6">Mumbai Local · Western · Central · Harbour</div>
+        {% endif %}
+    </div>
+</div>
+
+<script>
+function setHour(h, el) {
+    document.getElementById('hourInput').value = h;
+    document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+    if (el) el.classList.add('active');
+}
+
+function makeSearchable(inputId, dropdownId, selectId) {
+    const input = document.getElementById(inputId);
+    const dropdown = document.getElementById(dropdownId);
+    const select = document.getElementById(selectId);
+    const items = dropdown.querySelectorAll('.dropdown-item');
+
+    const selected = select.options[select.selectedIndex];
+    if (selected) input.value = selected.text;
+
+    input.addEventListener('focus', () => {
+        dropdown.classList.add('open');
+        input.select();
+    });
+
+    input.addEventListener('input', () => {
+        const query = input.value.toLowerCase();
+        items.forEach(item => {
+            item.style.display = item.textContent.toLowerCase().includes(query) ? 'flex' : 'none';
+        });
+        dropdown.classList.add('open');
+    });
+
+    items.forEach(item => {
+        item.addEventListener('mousedown', (e) => {
+            e.preventDefault();
+            input.value = item.dataset.value;
+            select.value = item.dataset.value;
+            dropdown.classList.remove('open');
+        });
+    });
+
+    document.addEventListener('click', (e) => {
+        if (!input.contains(e.target) && !dropdown.contains(e.target)) {
+            dropdown.classList.remove('open');
+            if (select.value) input.value = select.value;
+        }
+    });
+}
+
+makeSearchable('srcInput', 'srcDropdown', 'srcSelect');
+makeSearchable('dstInput', 'dstDropdown', 'dstSelect');
+</script>
+
+</body>
+</html>
