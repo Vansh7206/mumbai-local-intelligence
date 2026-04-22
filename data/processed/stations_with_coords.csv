@@ -1,0 +1,140 @@
+station,station_code,line,platforms,tracks,year_of_opening,nearby_attractions,distance_km,travel_time_min,lat,lng
+Churchgate,CCG,Western,4.0,4.0,1867.0,"Marine Drive,Nariman Point,Flora Fountain",0,0,18.9355,72.8259
+Marine Lines,MEL,Western,4.0,4.0,1867.0,"Marine Drive,Girgaum Chowpatty Beach,Taraporewala Aquarium",1,3,18.9431,72.8237
+Charni Road,CYR,Western,4.0,4.0,1867.0,"Girgaum Chowpatty Beach,Taraporewala Aquarium,Babulnath Temple",1,2,18.9511,72.8196
+Grant Road,GTR,Western,4.0,4.0,,"Taraporewala Aquarium,Girgaum Chowpatty Beach,Kamala Nehru Park",1,3,18.9611,72.8164
+Mumbai Central,MMCT,Western,9.0,9.0,1930.0,"Haji Ali Dargah,Mahalakshmi Temple,Nehru Planetarium",1,2,18.9691,72.8202
+Mahalakshmi,MX,Western,3.0,3.0,1867.0,"Mahalakshmi Temple,Haji Ali Dargah,Nehru Science Center",1,3,18.9796,72.8197
+Lower Parel,PL,Western,3.0,5.0,1867.0,"High Street Phoenix Mall,Kamala Mills Compound,Worli Sea Face",2,3,18.993,72.8282
+Prabhadevi,PBHD,Western,2.0,7.0,1867.0,"Siddhivinayak Temple,Shivaji Park,Worli Sea Face",1,3,18.9992,72.8317
+Dadar,D/DR/DDR,Western,15.0,13.0,1868.0,"Shivaji Park,Siddhivinayak Temple,Dadar Flower Market",1,2,19.0178,72.8478
+Matunga Road,MRU,Western,2.0,5.0,1867.0,"Dadar Beach,Shivaji Park,Siddhivinayak Temple",2,2,19.0268,72.8456
+Mahim Jn,MM,Western,6.0,6.0,,"Bandra-Worli Sea Link,Bandra Fort,Mount Mary Church",1,3,19.0393,72.8446
+Bandra,B/BA,Western,7.0,8.0,1869.0,"Bandstand Promenade,Mount Mary Church,Carter Road Promenade",2,4,19.0543,72.8394
+Khar Road,KHAR,Western,6.0,6.0,1924.0,"Bandstand Promenade,Carter Road Promenade,Mount Mary Church",2,3,19.0655,72.8363
+Santacruz,STC,Western,6.0,8.0,1888.0,"Juhu Beach,ISKCON Temple,Joggers Park",1,2,19.0814,72.8389
+Vile Parle,VLP,Western,6.0,7.0,,"Juhu Beach,ISKCON Temple,Mahakali Caves",2,3,19.0989,72.8497
+Andheri,A/AD/ADH,Western,9.0,9.0,1928.0,"Juhu Beach,Versova Beach,ISKCON Temple",2,5,19.1194,72.8468
+Jogeshwari,JOS,Western,6.0,7.0,1867.0,"Mahakali Caves,Jogeshwari Caves,Film City (Goregaon)",2,3,19.1341,72.8499
+Ram Mandir,RMAR,Western,4.0,7.0,2016.0,"Film City (Goregaon),Goregaon Exhibition Center,Oberoi Mall",2,3,19.145,72.851
+Goregaon,GMN,Western,7.0,8.0,1867.0,"Film City,Goregaon Exhibition Center,Oberoi Mall",3,2,19.1566,72.8485
+Malad,MDD,Western,4.0,5.0,,"Aksa Beach,Marve Beach,Film City",2,4,19.1862,72.8484
+Kandivali,KLE,Western,4.0,4.0,1907.0,"Sanjay Gandhi National Park,Kanheri Caves,Aksa Beach",1,3,19.2057,72.8557
+Borivali,BO/BVI,Western,10.0,9.0,,"Sanjay Gandhi National Park,Kanheri Caves,Gorai Beach",3,6,19.2307,72.8566
+Dahisar,DIC,Western,4.0,4.0,,"Mandapeshwar Caves,Dahisar River,Mahakali Caves",2,5,19.2538,72.8596
+Mira Road,MIRA,Western,4.0,4.0,,"Global Vipassana Pagoda,EsselWorld,Water Kingdom",3,5,19.2841,72.8699
+Bhayander,BY,Western,6.0,6.0,,"EsselWorld,Water Kingdom,Kanheri Caves",3,5,19.3044,72.8638
+Naigaon,NIG,Western,3.0,4.0,,"Tungareshwar Wildlife Sanctuary,Jain Temple, Naigaon,Naigaon Beach",6,6,19.3629,72.8476
+Vasai Road,BSR/BS,Western,8.0,9.0,1864.0,"Vasai Fort,Tungareshwar Wildlife Sanctuary,Suruchi Beach",4,5,19.3723,72.8372
+Nalla Sopara,NSP,Western,4.0,4.0,,"Tungareshwar Wildlife Sanctuary,Jivdani Mata Temple,Kelva Beach",4,5,19.4168,72.829
+Virar,VR,Western,8.0,9.0,,"Arnala Fort,Jivdani Mata Temple,Vajreshwari Temple",4,6,19.4588,72.8112
+Vaitarna,VTN,Western,2.0,2.0,,"Vaitarna Dam,Tansa Lake,Sajan Nature Club",8,9,19.51,72.7928
+Saphale,SAH,Western,2.0,3.0,,"Kelva Beach,Mahim Beach,Satpati Beach",8,8,19.57,72.775
+Kelve Road,KLV,Western,3.0,3.0,,"Kelva Beach,Shirgaon Beach,Mahim Beach",6,8,19.61,72.76
+Palghar,PLG,Western,3.0,5.0,1893.0,"Kelva Beach,Mahim Beach,Shirgaon Beach",8,15,19.6958,72.7653
+Umroli Road,UOI,Western,2.0,2.0,,"Kelva Beach,Mahim Beach,Shirgaon Beach",6,6,19.74,72.75
+Boisar,BOR,Western,3.0,5.0,,"Kelva Beach,Mahim Beach,Shirgaon Beach",6,6,19.8,72.74
+Vangaon,VGN,Western,3.0,4.0,,"Kelva Beach,Mahim Beach,Shirgaon Beach",9,9,19.87,72.73
+Dahanu Road,DRD,Western,5.0,6.0,1898.0,"Dahanu Beach,Bordi Beach,Dahanu Fort",12,13,19.97,72.71
+CSMT,CSMT/ST,Central 1,7.0,7.0,1878.0,"Gateway of India,Chhatrapati Shivaji Maharaj Vastu Sangrahalaya (formerly Prince of Wales Museum),Marine Drive",0,0,18.9398,72.8355
+Masjid,MSD,Central 1,4.0,6.0,1877.0,"Crawford Market,Mohammed Ali Road (famous for street food),Chor Bazaar (Thieves Market)",1,3,18.9467,72.8373
+Sandhurst Road,SNRD,Central 1,4.0,6.0,1921.0,"Crawford Market,Mohammed Ali Road,Chor Bazaar",1,2,18.955,72.8379
+Byculla,BY,Central 1,4.0,4.0,1853.0,"Dr. Bhau Daji Lad Museum,Rani Baug (Byculla Zoo),Jijamata Udyaan",2,3,18.9645,72.8352
+Chinchpokli,CHG,Central 1,2.0,3.0,1877.0,"Dhobi Ghat,Dr. Bhau Daji Lad Museum,Haji Ali Dargah",1,2,18.9711,72.8348
+Currey Road,CRD,Central 1,2.0,4.0,1915.0,"Mahalakshmi Temple,Haji Ali Dargah,Worli Sea Face",1,2,18.9784,72.8363
+Parel,PR,Central 1,3.0,3.0,1877.0,"Siddhivinayak Temple,High Street Phoenix Mall,Nehru Science Center",2,3,18.9898,72.8408
+Dadar,D/DR/DDR,Central 1,15.0,13.0,1868.0,"Shivaji Park,Siddhivinayak Temple,Dadar Flower Market",1,3,19.0178,72.8478
+Matunga,MTN,Central 1,4.0,4.0,1865.0,"Matunga Market (South Indian specialties),Five Gardens,King's Circle Garden",1,3,19.0288,72.8533
+Sion,SIN,Central 1,4.0,4.0,1853.0,"Sion Fort,Lokmanya Tilak Bridge,Sion Fort Garden",1,4,19.0392,72.8617
+Kurla,C/CH,Central 1,8.0,8.0,1879.0,"Phoenix Marketcity Mall,Snow World Mumbai,Powai Lake",1,4,19.0631,72.882
+Vidhyavihar,VVH,Central 1,2.0,2.0,1865.0,"R City Mall,Powai Lake,Kanheri Caves",2,3,19.0772,72.9063
+Ghatkopar,G,Central 1,4.0,7.0,1877.0,"R City Mall,Powai Lake,Kanheri Caves",2,3,19.0863,72.9069
+Vikhroli,VK,Central 1,4.0,5.0,1947.0,"Powai Lake,R City Mall,Kanheri Caves",4,5,19.1063,72.9248
+Kanjur Marg,KJMG,Central 1,3.0,6.0,1968.0,"Powai Lake,R City Mall,Kanheri Caves",2,3,19.1161,72.9381
+Bhandup,BND,Central 1,4.0,7.0,1853.0,"Powai Lake,R City Mall,Kanheri Caves",2,3,19.1371,72.9449
+Nahur,NHU,Central 1,2.0,4.0,2006.0,"Powai Lake,R City Mall,Kanheri Caves",1,3,19.1511,72.9437
+Mulund,MLND,Central 1,4.0,6.0,1931.0,"Sanjay Gandhi National Park,Upvan Lake,Powai Lake",2,3,19.1731,72.9577
+Thane,TNA,Central 1,10.0,10.0,1853.0,"Upvan Lake,Talao Pali,Tikuji-ni-Wadi Water Park",2,4,19.1877,72.9744
+Kalva,KLVA,Central 1,4.0,4.0,,"Upvan Lake,Talao Pali,Tikuji-ni-Wadi Water Park",2,4,19.2011,73.0007
+Mumbra,MBQ,Central 1,4.0,4.0,1865.0,"Tikuji-ni-Wadi Water Park,Shri Kopineshwar Mandir,Parsik Hills",3,6,19.1869,73.0226
+Diva Jn,DIVA,Central 1,8.0,13.0,1877.0,"Tikuji-ni-Wadi Water Park,Ovalekar Wadi Butterfly Garden,Parsik Hills",3,4,19.1777,73.0543
+Kopar,KOPR,Central 1,2.0,2.0,,"Ovalekar Wadi Butterfly Garden,Masunda Lake,Parsik Hills",4,5,19.169,73.08
+Dombivli,DI,Central 1,5.0,7.0,1886.0,"Ganesh Temple (Dombivli),Pandavkada Waterfalls,Gaondevi Mandir",1,3,19.2153,73.0865
+Thakurli,THK,Central 1,2.0,3.0,,"Ganesh Temple (Dombivli),Pandavkada Waterfalls,Gaondevi Mandir",1,3,19.223,73.0933
+Kalyan,KYN,Central 1,8.0,9.0,,"Kala Talao (Kalyan Lake),Durgadi Fort,Titwala Ganesh Mandir",3,6,19.2438,73.1303
+Vithalwadi,VLDI,Central 1,2.0,2.0,,"Kala Talao (Kalyan Lake),Durgadi Fort,Titwala Ganesh Mandir",2,5,19.26,73.15
+Ulhas Nagar,ULNR,Central 1,2.0,2.0,,"Ulhas River,Kala Talao (Kalyan Lake),Durgadi Fort",1,3,19.22,73.16
+Ambernath,ABH,Central 1,3.0,3.0,,"Shiv Mandir,Shiv Mandir Lake,Shree Narayanguru Vidya Mandir",3,6,19.2,73.19
+Badalpur,BUD,Central 1,3.0,3.0,,"Shri Krishna Temple,Maharaja Agrasen Garden,Chikhloli Dam",7,8,19.23,73.21
+Vangani,VGI,Central 1,2.0,2.0,,"Bhivpuri Waterfall,Nakhind Hill,Bhivpuri Dam",11,9,19.09,73.25
+Shelu,SHLU,Central 1,2.0,2.0,,"Bhivpuri Waterfall,Nakhind Hill,Bhivpuri Dam",4,4,19.05,73.28
+Neral,NRL,Central 1,2.0,2.0,,"Matheran Hill Railway,Louisa Point,Charlotte Lake",4,4,18.98,73.27
+Bhivpuri Road,BVS,Central 1,2.0,2.0,,"Bhivpuri Waterfall,Nakhind Hill,Bhivpuri Dam",7,7,18.92,73.3
+Karjat,KJT/S,Central 1,3.0,5.0,,"Kondana Caves,Ulhas Valley,Peth Fort",7,9,18.91,73.32
+Palasdhari,PDI,Central 1,1.0,3.0,,"Palasdhari Lake,Kondana Caves,Ulhas Valley",3,5,18.88,73.35
+Kelavli,KLY,Central 1,1.0,1.0,,"Bhivpuri Waterfall,Nakhind Hill,Bhivpuri Dam",5,7,18.85,73.37
+Dolavli,DLV,Central 1,1.0,1.0,,"Kondana Caves,Ulhas Valley,Peth Fort",1,3,18.82,73.39
+Lowjee,LWJ,Central 1,1.0,1.0,,"Bhivpuri Waterfall,Nakhind Hill,Bhivpuri Dam",3,4,18.8,73.41
+Khopoli,KP,Central 1,2.0,3.0,,"Imagicaa Theme Park,Zenith Waterfall,Gadeshwar Dam",3,6,18.78,73.34
+CSMT,CSMT/ST,Central 2,7.0,7.0,1878.0,"Gateway of India,Chhatrapati Shivaji Maharaj Vastu Sangrahalaya (formerly Prince of Wales Museum),Marine Drive",0,0,18.9398,72.8355
+Masjid,MSD,Central 2,4.0,6.0,1877.0,"Crawford Market,Mohammed Ali Road (famous for street food),Chor Bazaar (Thieves Market)",1,3,18.9467,72.8373
+Sandhurst Road,SNRD,Central 2,4.0,6.0,1921.0,"Crawford Market,Mohammed Ali Road,Chor Bazaar",1,2,18.955,72.8379
+Byculla,BY,Central 2,4.0,4.0,1853.0,"Dr. Bhau Daji Lad Museum,Rani Baug (Byculla Zoo),Jijamata Udyaan",2,3,18.9645,72.8352
+Chinchpokli,CHG,Central 2,2.0,3.0,1877.0,"Dhobi Ghat,Dr. Bhau Daji Lad Museum,Haji Ali Dargah",1,2,18.9711,72.8348
+Currey Road,CRD,Central 2,2.0,4.0,1915.0,"Mahalakshmi Temple,Haji Ali Dargah,Worli Sea Face",1,2,18.9784,72.8363
+Parel,PR,Central 2,3.0,3.0,1877.0,"Siddhivinayak Temple,High Street Phoenix Mall,Nehru Science Center",2,3,18.9898,72.8408
+Dadar,D/DR/DDR,Central 2,15.0,13.0,1868.0,"Shivaji Park,Siddhivinayak Temple,Dadar Flower Market",1,3,19.0178,72.8478
+Matunga,MTN,Central 2,4.0,4.0,,"Matunga Market (South Indian specialties),Five Gardens,King's Circle Garden",1,3,19.0288,72.8533
+Sion,SIN,Central 2,4.0,4.0,,"Sion Fort,Lokmanya Tilak Bridge,Sion Fort Garden",1,4,19.0392,72.8617
+Kurla,C/CH,Central 2,8.0,8.0,1879.0,"Phoenix Marketcity Mall,Snow World Mumbai,Powai Lake",1,4,19.0631,72.882
+Vidhyavihar,VVH,Central 2,2.0,2.0,1865.0,"R City Mall,Powai Lake,Kanheri Caves",2,3,19.0772,72.9063
+Ghatkopar,G,Central 2,4.0,7.0,1877.0,"R City Mall,Powai Lake,Kanheri Caves",2,3,19.0863,72.9069
+Vikhroli,VK,Central 2,4.0,5.0,,"Powai Lake,R City Mall,Kanheri Caves",4,5,19.1063,72.9248
+Kanjur Marg,KJMG,Central 2,3.0,6.0,1968.0,"Powai Lake,R City Mall,Kanheri Caves",2,3,19.1161,72.9381
+Bhandup,BND,Central 2,4.0,7.0,1853.0,"Powai Lake,R City Mall,Kanheri Caves",2,3,19.1371,72.9449
+Nahur,NHU,Central 2,2.0,4.0,2006.0,"Powai Lake,R City Mall,Kanheri Caves",1,3,19.1511,72.9437
+Mulund,MLND,Central 2,4.0,6.0,1931.0,"Sanjay Gandhi National Park,Upvan Lake,Powai Lake",2,3,19.1731,72.9577
+Thane,TNA,Central 2,10.0,10.0,1853.0,"Upvan Lake,Talao Pali,Tikuji-ni-Wadi Water Park",2,4,19.1877,72.9744
+Kalva,KLVA,Central 2,4.0,4.0,,"Upvan Lake,Talao Pali,Tikuji-ni-Wadi Water Park",2,4,19.2011,73.0007
+Mumbra,MBQ,Central 2,4.0,4.0,,"Tikuji-ni-Wadi Water Park,Shri Kopineshwar Mandir,Parsik Hills",3,6,19.1869,73.0226
+Diva Jn,DIVA,Central 2,8.0,13.0,,"Tikuji-ni-Wadi Water Park,Ovalekar Wadi Butterfly Garden,Parsik Hills",3,4,19.1777,73.0543
+Kopar,KOPR,Central 2,2.0,2.0,,"Ovalekar Wadi Butterfly Garden,Masunda Lake,Parsik Hills",4,5,19.169,73.08
+Dombivli,DI,Central 2,5.0,7.0,1886.0,"Ganesh Temple (Dombivli),Pandavkada Waterfalls,Gaondevi Mandir",1,3,19.2153,73.0865
+Thakurli,THK,Central 2,2.0,3.0,,"Ganesh Temple (Dombivli),Pandavkada Waterfalls,Gaondevi Mandir",1,3,19.223,73.0933
+Kalyan,KYN,Central 2,8.0,9.0,,"Kala Talao (Kalyan Lake),Durgadi Fort,Titwala Ganesh Mandir",3,6,19.2438,73.1303
+Shahad,SHAD,Central 2,2.0,2.0,,"Imagicaa Theme Park,Zenith Waterfall,Gadeshwar Dam",3,5,19.27,73.16
+Ambivli,ABY,Central 2,2.0,2.0,,"Bhivpuri Waterfall,Nakhind Hill,Bhivpuri Dam",2,3,19.29,73.18
+Titwala,TLA,Central 2,3.0,3.0,,"Titwala Ganesh Mandir,Ganeshpuri,Ambarnath Shivalaya Temple",6,5,19.31,73.2
+Khadavli,KDV,Central 2,2.0,2.0,,"Bhivpuri Waterfall,Nakhind Hill,Bhivpuri Dam",7,8,19.34,73.22
+Vasind,VSD,Central 2,2.0,6.0,,"Ashram of Bhagwan Swaminarayan,Ashram of Dnyaneshwar Maharaj,Yadav Mandir",8,8,19.37,73.25
+Asangaon,ASO,Central 2,2.0,4.0,,"Asangaon Dam,Chanderi Fort,Khardi Dam",6,6,19.47,73.28
+Atagaon,ATG,Central 2,2.0,4.0,,"Chanderi Fort,Mahuli Fort,Asangaon Dam",9,9,19.53,73.3
+Thansit,THS,Central 2,2.0,,,"Asangaon Dam,Chanderi Fort,Mahuli Fort",7,7,19.28,73.17
+Khardi,KE,Central 2,2.0,4.0,,"Chanderi Fort,Mahuli Fort,Khardi Dam",5,5,19.58,73.32
+Umbermali,OMB,Central 2,2.0,,,"Asangaon Dam,Chanderi Fort,Mahuli Fort",6,6,19.62,73.35
+Kasara,KSRA,Central 2,4.0,10.0,,"Kasara Ghat,Mahuli Fort,Asangaon Dam",12,12,19.68,73.47
+CSMT,CSMT/ST,Harbour,7.0,7.0,,"Gateway of India,Chhatrapati Shivaji Maharaj Vastu Sangrahalaya (formerly Prince of Wales Museum),Marine Drive",0,0,18.9398,72.8355
+Masjid,MSD,Harbour,4.0,6.0,,"Crawford Market,Mohammed Ali Road (famous for street food),Chor Bazaar (Thieves Market)",1,3,18.9467,72.8373
+Sandhurst Road,SNRD,Harbour,4.0,6.0,,"Crawford Market,Mohammed Ali Road,Chor Bazaar",1,2,18.955,72.8379
+Dockyarad Road,DKRD,Harbour,2.0,2.0,,"Sewri Fort,Haji Ali Dargah,Worli Sea Face",2,2,18.9531,72.8434
+Reay Road,RRD,Harbour,2.0,2.0,1910.0,"Sewri Fort,Haji Ali Dargah,Worli Sea Face",1,2,18.9598,72.851
+Cotton Green,CTGN,Harbour,3.0,2.0,,"Sewri Fort,Haji Ali Dargah,Worli Sea Face",1,2,18.9659,72.8559
+Sewri,SVE,Harbour,2.0,2.0,,"Sewri Fort,Flamingo Sanctuary,Haji Ali Dargah",1,3,18.9762,72.8624
+Vadala Road,VDLR,Harbour,4.0,4.0,,"Shivaji Park,Siddhivinayak Temple,Dadar Beach",2,3,18.9939,72.8635
+GTB Nagar,GTBN,Harbour,1.0,2.0,,"Shivaji Park,Siddhivinayak Temple,Dadar Beach",2,4,19.0149,72.8617
+Chunabhatti,CHF,Harbour,2.0,2.0,,"Shivaji Park,Siddhivinayak Temple,Dadar Beach",2,3,19.0311,72.8705
+Kurla,C/CH,Harbour,8.0,8.0,,"Phoenix Marketcity Mall,Snow World Mumbai,Powai Lake",2,3,19.0631,72.882
+Tilaknagar,TKNG,Harbour,2.0,2.0,,"Shivaji Park,Siddhivinayak Temple,Dadar Beach",2,3,19.0732,72.8978
+Chembur,CMBR,Harbour,2.0,2.0,1906.0,"Diamond Garden,Powai Lake,Jijamata Udyan",1,2,19.0638,72.8996
+Govandi,GV,Harbour,2.0,2.0,,"Diamond Garden,Powai Lake,Jijamata Udyan",3,3,19.0543,72.9135
+Mankhurd,MNKD,Harbour,2.0,2.0,,"Diamond Garden,Powai Lake,Jijamata Udyan",3,3,19.0434,72.9322
+Vashi,VSH,Harbour,4.0,4.0,1992.0,"Inorbit Mall,Central Park,Sagar Vihar Garden",8,8,19.0764,73.0091
+Sanpada,SNCR,Harbour,4.0,4.0,,"Palm Beach,Wonder Park,Jewel of Navi Mumbai",3,3,19.0657,73.0097
+Juinagar,JNJ,Harbour,6.0,4.0,,"Juinagar Beach,Kharghar Hills,Wonders Park",5,5,19.0529,73.0171
+Nerul,NEU,Harbour,6.0,6.0,,"Nerul Lake,Rock Garden,SIES College Pond",3,3,19.0285,73.0181
+Seawood Darave,SWDV,Harbour,4.0,4.0,,"Seawoods Grand Central Mall,Rock Garden,Nerul Lake",3,3,19.012,73.0189
+Belapur CBD,BEPR,Harbour,4.0,4.0,,"Central Park,Belapur Fort,Parsik Hill",4,4,19.0201,73.0434
+Kharghar,KHAG,Harbour,4.0,4.0,,"Central Park,ISKCON Temple,Pandavkada Waterfalls",4,4,19.046,73.0696
+Mansarovar,MANR,Harbour,2.0,2.0,2008.0,"Central Park,ISKCON Temple,Utsav Chowk",3,3,19.0582,73.0831
+Khandeshwar,KNDS,Harbour,2.0,2.0,,"Central Park,Pandavkada Waterfalls,ISKCON Temple",3,3,19.0398,73.0987
+Panvel,PNVL,Harbour,7.0,10.0,1962.0,"Karnala Bird Sanctuary,Karnala Fort,Gadeshwar Dam",3,3,18.9938,73.1086
