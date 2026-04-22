@@ -5,9 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mumbai Local — Route Planner</title>
     <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-
         body {
             font-family: 'Roboto', sans-serif;
             background: #f8f9fa;
@@ -16,8 +17,6 @@
             display: flex;
             flex-direction: column;
         }
-
-        /* TOP NAV */
         .nav {
             background: white;
             border-bottom: 1px solid #e8eaed;
@@ -28,386 +27,128 @@
             gap: 16px;
             position: sticky;
             top: 0;
-            z-index: 100;
+            z-index: 1000;
             box-shadow: 0 1px 3px rgba(0,0,0,0.08);
         }
-
         .nav-icon {
-            width: 32px;
-            height: 32px;
+            width: 32px; height: 32px;
             background: #1a73e8;
             border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 16px;
-            flex-shrink: 0;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 16px; flex-shrink: 0;
         }
-
-        .nav-title {
-            font-family: 'Google Sans', sans-serif;
-            font-size: 1.1rem;
-            font-weight: 500;
-            color: #202124;
-        }
-
-        .nav-subtitle {
-            font-size: 0.8rem;
-            color: #5f6368;
-            margin-left: 4px;
-        }
-
-        /* LAYOUT */
-        .layout {
-            display: flex;
-            flex: 1;
-            height: calc(100vh - 56px);
-        }
-
-        /* SIDEBAR */
+        .nav-title { font-family: 'Google Sans', sans-serif; font-size: 1.1rem; font-weight: 500; color: #202124; }
+        .nav-subtitle { font-size: 0.8rem; color: #5f6368; margin-left: 4px; }
+        .layout { display: flex; flex: 1; height: calc(100vh - 56px); }
         .sidebar {
-            width: 380px;
-            background: white;
+            width: 380px; background: white;
             border-right: 1px solid #e8eaed;
-            overflow-y: auto;
-            flex-shrink: 0;
+            overflow-y: auto; flex-shrink: 0; z-index: 10;
         }
-
         .sidebar-inner { padding: 20px; }
-
-        /* SEARCH BOX */
         .search-section {
-            background: #f8f9fa;
-            border-radius: 12px;
-            padding: 16px;
-            margin-bottom: 16px;
-            border: 1px solid #e8eaed;
+            background: #f8f9fa; border-radius: 12px;
+            padding: 16px; margin-bottom: 16px; border: 1px solid #e8eaed;
         }
-
-        .search-row {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 10px;
-        }
-
+        .search-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
         .search-row:last-child { margin-bottom: 0; }
-
-        .search-icon {
-            width: 20px;
-            text-align: center;
-            font-size: 14px;
-            color: #5f6368;
-            flex-shrink: 0;
-        }
-
+        .search-icon { width: 20px; text-align: center; font-size: 14px; color: #5f6368; flex-shrink: 0; }
         .search-wrap { position: relative; flex: 1; }
-
         .search-input {
-            width: 100%;
-            background: white;
-            border: 1px solid #e8eaed;
-            border-radius: 8px;
-            color: #202124;
-            font-family: 'Roboto', sans-serif;
-            font-size: 0.9rem;
-            padding: 10px 14px;
-            transition: all 0.2s;
+            width: 100%; background: white; border: 1px solid #e8eaed;
+            border-radius: 8px; color: #202124; font-family: 'Roboto', sans-serif;
+            font-size: 0.9rem; padding: 10px 14px; transition: all 0.2s;
         }
-
-        .search-input:focus {
-            outline: none;
-            border-color: #1a73e8;
-            box-shadow: 0 0 0 3px rgba(26,115,232,0.1);
-        }
-
-        .search-divider {
-            height: 1px;
-            background: #e8eaed;
-            margin: 8px 0 8px 30px;
-        }
-
+        .search-input:focus { outline: none; border-color: #1a73e8; box-shadow: 0 0 0 3px rgba(26,115,232,0.1); }
+        .search-divider { height: 1px; background: #e8eaed; margin: 8px 0 8px 30px; }
         .dropdown-list {
-            display: none;
-            position: absolute;
-            top: calc(100% + 4px);
-            left: 0;
-            right: 0;
-            background: white;
-            border: 1px solid #e8eaed;
-            border-radius: 8px;
-            max-height: 200px;
-            overflow-y: auto;
-            z-index: 200;
+            display: none; position: absolute; top: calc(100% + 4px); left: 0; right: 0;
+            background: white; border: 1px solid #e8eaed; border-radius: 8px;
+            max-height: 200px; overflow-y: auto; z-index: 500;
             box-shadow: 0 4px 20px rgba(0,0,0,0.12);
         }
-
         .dropdown-list.open { display: block; }
-
         .dropdown-item {
-            padding: 10px 14px;
-            font-size: 0.88rem;
-            cursor: pointer;
-            color: #202124;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            padding: 10px 14px; font-size: 0.88rem; cursor: pointer;
+            color: #202124; display: flex; align-items: center; gap: 10px;
         }
-
-        .dropdown-item::before {
-            content: '🚉';
-            font-size: 12px;
-        }
-
-        .dropdown-item:hover {
-            background: #f0f7ff;
-            color: #1a73e8;
-        }
-
-        .hidden-select { display: none; }
-
-        /* HOUR */
+        .dropdown-item::before { content: '🚉'; font-size: 12px; }
+        .dropdown-item:hover { background: #f0f7ff; color: #1a73e8; }
         .hour-section { margin-bottom: 16px; }
-
         .hour-label {
-            font-size: 0.75rem;
-            font-weight: 500;
-            color: #5f6368;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            margin-bottom: 10px;
+            font-size: 0.75rem; font-weight: 500; color: #5f6368;
+            text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 10px;
         }
-
-        .hour-chips {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-bottom: 12px;
-        }
-
+        .hour-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
         .chip {
-            padding: 6px 14px;
-            background: white;
-            border: 1px solid #dadce0;
-            border-radius: 100px;
-            font-size: 0.8rem;
-            color: #5f6368;
-            cursor: pointer;
-            transition: all 0.15s;
-            font-family: 'Roboto', sans-serif;
+            padding: 6px 14px; background: white; border: 1px solid #dadce0;
+            border-radius: 100px; font-size: 0.8rem; color: #5f6368;
+            cursor: pointer; transition: all 0.15s; font-family: 'Roboto', sans-serif;
         }
-
-        .chip:hover, .chip.active {
-            background: #e8f0fe;
-            border-color: #1a73e8;
-            color: #1a73e8;
-        }
-
-        .hour-input-row {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .hour-input-row label {
-            font-size: 0.82rem;
-            color: #5f6368;
-            white-space: nowrap;
-        }
-
+        .chip:hover, .chip.active { background: #e8f0fe; border-color: #1a73e8; color: #1a73e8; }
+        .hour-input-row { display: flex; align-items: center; gap: 10px; }
+        .hour-input-row label { font-size: 0.82rem; color: #5f6368; white-space: nowrap; }
         input[type="number"] {
-            width: 80px;
-            background: white;
-            border: 1px solid #dadce0;
-            border-radius: 8px;
-            color: #202124;
-            font-family: 'Roboto', sans-serif;
-            font-size: 0.9rem;
-            padding: 8px 12px;
+            width: 80px; background: white; border: 1px solid #dadce0;
+            border-radius: 8px; color: #202124; font-family: 'Roboto', sans-serif;
+            font-size: 0.9rem; padding: 8px 12px;
         }
-
-        input[type="number"]:focus {
-            outline: none;
-            border-color: #1a73e8;
-            box-shadow: 0 0 0 3px rgba(26,115,232,0.1);
-        }
-
-        /* SUBMIT */
+        input[type="number"]:focus { outline: none; border-color: #1a73e8; box-shadow: 0 0 0 3px rgba(26,115,232,0.1); }
         .submit-btn {
-            width: 100%;
-            padding: 12px;
-            background: #1a73e8;
-            border: none;
-            border-radius: 8px;
-            color: white;
-            font-family: 'Google Sans', sans-serif;
-            font-size: 0.95rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
+            width: 100%; padding: 12px; background: #1a73e8; border: none;
+            border-radius: 8px; color: white; font-family: 'Google Sans', sans-serif;
+            font-size: 0.95rem; font-weight: 500; cursor: pointer; transition: all 0.2s;
+            display: flex; align-items: center; justify-content: center; gap: 8px;
         }
-
-        .submit-btn:hover {
-            background: #1557b0;
-            box-shadow: 0 2px 8px rgba(26,115,232,0.3);
-        }
-
-        /* RESULT PANEL */
-        .result-panel {
-            margin-top: 20px;
-            border-top: 1px solid #e8eaed;
-            padding-top: 20px;
-        }
-
-        .result-summary {
-            background: #e8f0fe;
-            border-radius: 10px;
-            padding: 16px;
-            margin-bottom: 16px;
-        }
-
-        .result-route-title {
-            font-family: 'Google Sans', sans-serif;
-            font-size: 1rem;
-            font-weight: 500;
-            color: #1a73e8;
-            margin-bottom: 12px;
-        }
-
-        .summary-stats {
-            display: flex;
-            gap: 20px;
-        }
-
-        .s-stat { }
-        .s-val {
-            font-family: 'Google Sans', sans-serif;
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: #202124;
-        }
-        .s-lbl {
-            font-size: 0.72rem;
-            color: #5f6368;
-            text-transform: uppercase;
-            letter-spacing: 0.06em;
-        }
-
-        /* STOPS */
-        .stops-title {
-            font-size: 0.75rem;
-            font-weight: 500;
-            color: #5f6368;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            margin-bottom: 12px;
-        }
-
-        .stop {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 10px 0;
-            border-bottom: 1px solid #f1f3f4;
-            position: relative;
-        }
-
+        .submit-btn:hover { background: #1557b0; box-shadow: 0 2px 8px rgba(26,115,232,0.3); }
+        .result-panel { margin-top: 20px; border-top: 1px solid #e8eaed; padding-top: 20px; }
+        .result-summary { background: #e8f0fe; border-radius: 10px; padding: 16px; margin-bottom: 16px; }
+        .result-route-title { font-family: 'Google Sans', sans-serif; font-size: 1rem; font-weight: 500; color: #1a73e8; margin-bottom: 12px; }
+        .summary-stats { display: flex; gap: 20px; }
+        .s-val { font-family: 'Google Sans', sans-serif; font-size: 1.3rem; font-weight: 700; color: #202124; }
+        .s-lbl { font-size: 0.72rem; color: #5f6368; text-transform: uppercase; letter-spacing: 0.06em; }
+        .stops-title { font-size: 0.75rem; font-weight: 500; color: #5f6368; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 12px; }
+        .stop { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid #f1f3f4; }
         .stop:last-child { border-bottom: none; }
-
-        .stop-left {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 20px;
-            flex-shrink: 0;
-        }
-
-        .stop-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            border: 2px solid #dadce0;
-            background: white;
-            flex-shrink: 0;
-        }
-
+        .stop-dot { width: 10px; height: 10px; border-radius: 50%; border: 2px solid #dadce0; background: white; }
         .stop:first-child .stop-dot { border-color: #1a73e8; background: #1a73e8; }
         .stop:last-child .stop-dot { border-color: #ea4335; background: #ea4335; }
-
-        .stop-info { flex: 1; }
-
-        .stop-name {
-            font-size: 0.9rem;
-            font-weight: 500;
-            color: #202124;
-        }
-
-        .stop-line {
-            font-size: 0.75rem;
-            color: #5f6368;
-            margin-top: 1px;
-        }
-
-        .line-pill {
-            font-size: 0.68rem;
-            font-weight: 500;
-            padding: 2px 8px;
-            border-radius: 4px;
-            margin-right: 4px;
-        }
-
+        .stop-name { font-size: 0.9rem; font-weight: 500; color: #202124; }
+        .stop-line { font-size: 0.75rem; color: #5f6368; margin-top: 1px; }
+        .line-pill { font-size: 0.68rem; font-weight: 500; padding: 2px 8px; border-radius: 4px; margin-right: 4px; }
         .western-pill { background: #e8f0fe; color: #1a73e8; }
         .central-pill { background: #fce8e6; color: #ea4335; }
         .harbour-pill { background: #e6f4ea; color: #34a853; }
-
-        .delay-badge {
-            font-size: 0.78rem;
-            font-weight: 500;
-            padding: 3px 10px;
-            border-radius: 100px;
-            flex-shrink: 0;
-        }
-
+        .delay-badge { font-size: 0.78rem; font-weight: 500; padding: 3px 10px; border-radius: 100px; flex-shrink: 0; }
         .d-low { background: #e6f4ea; color: #34a853; }
         .d-mid { background: #fef7e0; color: #f9ab00; }
         .d-high { background: #fce8e6; color: #ea4335; }
 
-        /* RIGHT PANEL - MAP PLACEHOLDER */
-        .map-panel {
-            flex: 1;
-            background: #e8eaed;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            gap: 12px;
-            color: #5f6368;
+        /* MAP */
+        #map { flex: 1; height: 100%; }
+
+        .map-legend {
+            position: absolute; bottom: 20px; right: 20px; z-index: 500;
+            background: white; border-radius: 10px; padding: 12px 16px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.15); font-size: 0.78rem;
         }
+        .legend-title { font-weight: 600; margin-bottom: 8px; color: #202124; font-size: 0.8rem; }
+        .legend-item { display: flex; align-items: center; gap: 8px; margin-bottom: 5px; color: #5f6368; }
+        .legend-line { width: 24px; height: 4px; border-radius: 2px; }
 
-        .map-panel-icon { font-size: 48px; }
-        .map-panel-text { font-size: 0.9rem; }
-
-        /* SCROLLBAR */
         .sidebar::-webkit-scrollbar { width: 6px; }
         .sidebar::-webkit-scrollbar-track { background: transparent; }
         .sidebar::-webkit-scrollbar-thumb { background: #dadce0; border-radius: 4px; }
-        .dropdown-list::-webkit-scrollbar { width: 4px; }
-        .dropdown-list::-webkit-scrollbar-thumb { background: #dadce0; border-radius: 4px; }
 
         @media (max-width: 600px) {
             .layout { flex-direction: column; height: auto; }
             .sidebar { width: 100%; border-right: none; border-bottom: 1px solid #e8eaed; }
-            .map-panel { display: none; }
+            #map { height: 350px; }
         }
     </style>
 </head>
 <body>
 
-<!-- NAV -->
 <div class="nav">
     <div class="nav-icon">🚆</div>
     <div>
@@ -417,181 +158,380 @@
 </div>
 
 <div class="layout">
-    <!-- SIDEBAR -->
     <div class="sidebar">
         <div class="sidebar-inner">
-            <form method="POST" id="mainForm">
-
-                <!-- STATION SEARCH -->
-                <div class="search-section">
-                    <div class="search-row">
-                        <div class="search-icon">🔵</div>
-                        <div class="search-wrap">
-                            <input class="search-input" type="text" placeholder="From station" id="srcInput" autocomplete="off">
-                            <div class="dropdown-list" id="srcDropdown">
-                                {% for s in stations %}
-                                <div class="dropdown-item" data-value="{{ s }}">{{ s }}</div>
-                                {% endfor %}
-                            </div>
-                            <select name="source" class="hidden-select" id="srcSelect">
-                                {% for s in stations %}
-                                <option value="{{ s }}" {% if request.form.get('source') == s %}selected{% endif %}>{{ s }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="search-divider"></div>
-
-                    <div class="search-row">
-                        <div class="search-icon">🔴</div>
-                        <div class="search-wrap">
-                            <input class="search-input" type="text" placeholder="To station" id="dstInput" autocomplete="off">
-                            <div class="dropdown-list" id="dstDropdown">
-                                {% for s in stations %}
-                                <div class="dropdown-item" data-value="{{ s }}">{{ s }}</div>
-                                {% endfor %}
-                            </div>
-                            <select name="destination" class="hidden-select" id="dstSelect">
-                                {% for s in stations %}
-                                <option value="{{ s }}" {% if request.form.get('destination') == s %}selected{% endif %}>{{ s }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
+            <div class="search-section">
+                <div class="search-row">
+                    <div class="search-icon">🔵</div>
+                    <div class="search-wrap">
+                        <input class="search-input" type="text" placeholder="From station" id="srcInput" autocomplete="off">
+                        <div class="dropdown-list" id="srcDropdown"></div>
                     </div>
                 </div>
-
-                <!-- HOUR -->
-                <div class="hour-section">
-                    <div class="hour-label">Time of Travel</div>
-                    <div class="hour-chips">
-                        <span class="chip" onclick="setHour(8, this)">Morning Peak</span>
-                        <span class="chip" onclick="setHour(13, this)">Afternoon</span>
-                        <span class="chip" onclick="setHour(18, this)">Evening Peak</span>
-                        <span class="chip" onclick="setHour(22, this)">Night</span>
-                    </div>
-                    <div class="hour-input-row">
-                        <label>Custom hour:</label>
-                        <input type="number" name="hour" id="hourInput" min="0" max="23" value="{{ request.form.get('hour', '8') }}">
+                <div class="search-divider"></div>
+                <div class="search-row">
+                    <div class="search-icon">🔴</div>
+                    <div class="search-wrap">
+                        <input class="search-input" type="text" placeholder="To station" id="dstInput" autocomplete="off">
+                        <div class="dropdown-list" id="dstDropdown"></div>
                     </div>
                 </div>
-
-                <button type="submit" class="submit-btn">
-                    <span>🗺️</span> Get Route & Delay Forecast
-                </button>
-            </form>
-
-            <!-- RESULT -->
-            {% if result %}
-            <div class="result-panel">
-                <div class="result-summary">
-                    <div class="result-route-title">
-                        {{ result.path[0].station }} → {{ result.path[-1].station }}
-                    </div>
-                    <div class="summary-stats">
-                        <div class="s-stat">
-                            <div class="s-val">{{ result.path|length }}</div>
-                            <div class="s-lbl">Stops</div>
-                        </div>
-                        <div class="s-stat">
-                            <div class="s-val">{{ result.total_time }} min</div>
-                            <div class="s-lbl">Travel Time</div>
-                        </div>
-                        <div class="s-stat">
-                            <div class="s-val">{{ result.total_delay }} min</div>
-                            <div class="s-lbl">Max Delay</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="stops-title">Route Stops</div>
-
-                {% for stop in result.path %}
-                <div class="stop">
-                    <div class="stop-left">
-                        <div class="stop-dot"></div>
-                    </div>
-                    <div class="stop-info">
-                        <div class="stop-name">{{ stop.station }}</div>
-                        <div class="stop-line">
-                            <span class="line-pill {% if 'Western' in stop.line %}western-pill{% elif 'Central' in stop.line %}central-pill{% else %}harbour-pill{% endif %}">
-                                {{ stop.line }}
-                            </span>
-                        </div>
-                    </div>
-                    <div class="delay-badge {% if stop.delay <= 3 %}d-low{% elif stop.delay <= 7 %}d-mid{% else %}d-high{% endif %}">
-                        +{{ stop.delay }} min
-                    </div>
-                </div>
-                {% endfor %}
             </div>
-            {% endif %}
+
+            <div class="hour-section">
+                <div class="hour-label">Time of Travel</div>
+                <div class="hour-chips">
+                    <span class="chip" onclick="setHour(8, this)">Morning Peak</span>
+                    <span class="chip" onclick="setHour(13, this)">Afternoon</span>
+                    <span class="chip" onclick="setHour(18, this)">Evening Peak</span>
+                    <span class="chip" onclick="setHour(22, this)">Night</span>
+                </div>
+                <div class="hour-input-row">
+                    <label>Custom hour:</label>
+                    <input type="number" id="hourInput" min="0" max="23" value="8">
+                </div>
+            </div>
+
+            <button class="submit-btn" onclick="planRoute()">
+                <span>🗺️</span> Get Route & Delay Forecast
+            </button>
+
+            <div class="result-panel" id="resultPanel" style="display:none"></div>
         </div>
     </div>
 
-    <!-- MAP PANEL -->
-    <div class="map-panel">
-        {% if result %}
-        <div class="map-panel-icon">🗺️</div>
-        <div class="map-panel-text">{{ result.path|length }} stops · {{ result.total_time }} min journey</div>
-        <div style="font-size:0.8rem;color:#9aa0a6">Map visualization coming soon</div>
-        {% else %}
-        <div class="map-panel-icon">🚆</div>
-        <div class="map-panel-text">Enter stations to find your route</div>
-        <div style="font-size:0.8rem;color:#9aa0a6">Mumbai Local · Western · Central · Harbour</div>
-        {% endif %}
+    <!-- MAP -->
+    <div style="flex:1; position:relative;">
+        <div id="map"></div>
+        <div class="map-legend">
+            <div class="legend-title">Lines</div>
+            <div class="legend-item"><div class="legend-line" style="background:#1a73e8"></div> Western</div>
+            <div class="legend-item"><div class="legend-line" style="background:#ea4335"></div> Central</div>
+            <div class="legend-item"><div class="legend-line" style="background:#34a853"></div> Harbour</div>
+            <div class="legend-item"><div class="legend-line" style="background:#ff6d00; height:5px;"></div> Your Route</div>
+        </div>
     </div>
 </div>
 
 <script>
+// ──────────────────────────────────────────────
+// STATION DATA  (lat/lng + line)
+// ──────────────────────────────────────────────
+const STATIONS = {
+    // WESTERN LINE (south → north)
+    "Churchgate":    { lat:18.9355, lng:72.8259, line:"Western" },
+    "Marine Lines":  { lat:18.9431, lng:72.8237, line:"Western" },
+    "Charni Road":   { lat:18.9511, lng:72.8196, line:"Western" },
+    "Grant Road":    { lat:18.9611, lng:72.8164, line:"Western" },
+    "Mumbai Central":{ lat:18.9691, lng:72.8202, line:"Western" },
+    "Mahalaxmi":     { lat:18.9796, lng:72.8197, line:"Western" },
+    "Lower Parel":   { lat:18.9930, lng:72.8282, line:"Western" },
+    "Elphinstone Road":{ lat:18.9992, lng:72.8317, line:"Western" },
+    "Dadar":         { lat:19.0178, lng:72.8429, line:"Western" },
+    "Matunga Road":  { lat:19.0268, lng:72.8456, line:"Western" },
+    "Mahim":         { lat:19.0393, lng:72.8446, line:"Western" },
+    "Bandra":        { lat:19.0543, lng:72.8394, line:"Western" },
+    "Khar Road":     { lat:19.0655, lng:72.8363, line:"Western" },
+    "Santacruz":     { lat:19.0814, lng:72.8389, line:"Western" },
+    "Vile Parle":    { lat:19.0989, lng:72.8497, line:"Western" },
+    "Andheri":       { lat:19.1194, lng:72.8468, line:"Western" },
+    "Jogeshwari":    { lat:19.1341, lng:72.8499, line:"Western" },
+    "Goregaon":      { lat:19.1566, lng:72.8485, line:"Western" },
+    "Malad":         { lat:19.1862, lng:72.8484, line:"Western" },
+    "Kandivali":     { lat:19.2057, lng:72.8557, line:"Western" },
+    "Borivali":      { lat:19.2307, lng:72.8566, line:"Western" },
+    "Dahisar":       { lat:19.2538, lng:72.8596, line:"Western" },
+    "Mira Road":     { lat:19.2841, lng:72.8699, line:"Western" },
+    "Bhayandar":     { lat:19.3044, lng:72.8638, line:"Western" },
+    "Naigaon":       { lat:19.3629, lng:72.8476, line:"Western" },
+    "Vasai Road":    { lat:19.3723, lng:72.8372, line:"Western" },
+    "Nallasopara":   { lat:19.4168, lng:72.8290, line:"Western" },
+    "Virar":         { lat:19.4588, lng:72.8112, line:"Western" },
+
+    // CENTRAL LINE MAIN (CST → Thane/Kasara)
+    "CSMT":          { lat:18.9398, lng:72.8355, line:"Central" },
+    "Masjid":        { lat:18.9467, lng:72.8373, line:"Central" },
+    "Sandhurst Road":{ lat:18.9550, lng:72.8379, line:"Central" },
+    "Byculla":       { lat:18.9645, lng:72.8352, line:"Central" },
+    "Chinchpokli":   { lat:18.9711, lng:72.8348, line:"Central" },
+    "Currey Road":   { lat:18.9784, lng:72.8363, line:"Central" },
+    "Parel":         { lat:18.9898, lng:72.8408, line:"Central" },
+    "Dadar Central": { lat:19.0196, lng:72.8445, line:"Central" },
+    "Matunga":       { lat:19.0288, lng:72.8533, line:"Central" },
+    "Sion":          { lat:19.0392, lng:72.8617, line:"Central" },
+    "Kurla":         { lat:19.0631, lng:72.8820, line:"Central" },
+    "Vidyavihar":    { lat:19.0772, lng:72.9063, line:"Central" },
+    "Ghatkopar":     { lat:19.0863, lng:72.9069, line:"Central" },
+    "Vikhroli":      { lat:19.1063, lng:72.9248, line:"Central" },
+    "Kanjur Marg":   { lat:19.1161, lng:72.9381, line:"Central" },
+    "Bhandup":       { lat:19.1371, lng:72.9449, line:"Central" },
+    "Nahur":         { lat:19.1511, lng:72.9437, line:"Central" },
+    "Mulund":        { lat:19.1731, lng:72.9577, line:"Central" },
+    "Thane":         { lat:19.1877, lng:72.9744, line:"Central" },
+    "Kalwa":         { lat:19.2011, lng:73.0007, line:"Central" },
+    "Mumbra":        { lat:19.1869, lng:73.0226, line:"Central" },
+    "Diva":          { lat:19.1777, lng:73.0543, line:"Central" },
+    "Kopar":         { lat:19.1690, lng:73.0800, line:"Central" },
+    "Dombivli":      { lat:19.2153, lng:73.0865, line:"Central" },
+    "Thakurli":      { lat:19.2230, lng:73.0933, line:"Central" },
+    "Kalyan":        { lat:19.2438, lng:73.1303, line:"Central" },
+
+    // HARBOUR LINE
+    "CST Harbour":   { lat:18.9398, lng:72.8355, line:"Harbour" },
+    "Sandhurst Road H":{ lat:18.9550, lng:72.8379, line:"Harbour" },
+    "Dockyard Road": { lat:18.9531, lng:72.8434, line:"Harbour" },
+    "Reay Road":     { lat:18.9598, lng:72.8510, line:"Harbour" },
+    "Cotton Green":  { lat:18.9659, lng:72.8559, line:"Harbour" },
+    "Sewri":         { lat:18.9762, lng:72.8624, line:"Harbour" },
+    "Wadala Road":   { lat:18.9939, lng:72.8635, line:"Harbour" },
+    "GTB Nagar":     { lat:19.0149, lng:72.8617, line:"Harbour" },
+    "Chunabhatti":   { lat:19.0311, lng:72.8705, line:"Harbour" },
+    "Kurla Harbour": { lat:19.0631, lng:72.8820, line:"Harbour" },
+    "Tilak Nagar":   { lat:19.0732, lng:72.8978, line:"Harbour" },
+    "Chembur":       { lat:19.0638, lng:72.8996, line:"Harbour" },
+    "Govandi":       { lat:19.0543, lng:72.9135, line:"Harbour" },
+    "Mankhurd":      { lat:19.0434, lng:72.9322, line:"Harbour" },
+    "Vashi":         { lat:19.0764, lng:73.0091, line:"Harbour" },
+    "Sanpada":       { lat:19.0657, lng:73.0097, line:"Harbour" },
+    "Juinagar":      { lat:19.0529, lng:73.0171, line:"Harbour" },
+    "Nerul":         { lat:19.0285, lng:73.0181, line:"Harbour" },
+    "Seawoods":      { lat:19.0120, lng:73.0189, line:"Harbour" },
+    "Belapur":       { lat:19.0201, lng:73.0434, line:"Harbour" },
+    "Kharghar":      { lat:19.0460, lng:73.0696, line:"Harbour" },
+    "Mansarovar":    { lat:19.0582, lng:73.0831, line:"Harbour" },
+    "Khandeshwar":   { lat:19.0398, lng:73.0987, line:"Harbour" },
+    "Panvel":        { lat:18.9938, lng:73.1086, line:"Harbour" },
+};
+
+// Route adjacency for pathfinding
+const GRAPH = {
+    "Churchgate":["Marine Lines"],"Marine Lines":["Churchgate","Charni Road"],"Charni Road":["Marine Lines","Grant Road"],
+    "Grant Road":["Charni Road","Mumbai Central"],"Mumbai Central":["Grant Road","Mahalaxmi"],"Mahalaxmi":["Mumbai Central","Lower Parel"],
+    "Lower Parel":["Mahalaxmi","Elphinstone Road"],"Elphinstone Road":["Lower Parel","Dadar"],"Dadar":["Elphinstone Road","Matunga Road","Dadar Central"],
+    "Matunga Road":["Dadar","Mahim"],"Mahim":["Matunga Road","Bandra"],"Bandra":["Mahim","Khar Road"],"Khar Road":["Bandra","Santacruz"],
+    "Santacruz":["Khar Road","Vile Parle"],"Vile Parle":["Santacruz","Andheri"],"Andheri":["Vile Parle","Jogeshwari"],
+    "Jogeshwari":["Andheri","Goregaon"],"Goregaon":["Jogeshwari","Malad"],"Malad":["Goregaon","Kandivali"],
+    "Kandivali":["Malad","Borivali"],"Borivali":["Kandivali","Dahisar"],"Dahisar":["Borivali","Mira Road"],
+    "Mira Road":["Dahisar","Bhayandar"],"Bhayandar":["Mira Road","Naigaon"],"Naigaon":["Bhayandar","Vasai Road"],
+    "Vasai Road":["Naigaon","Nallasopara"],"Nallasopara":["Vasai Road","Virar"],"Virar":["Nallasopara"],
+    "CSMT":["Masjid","CST Harbour"],"Masjid":["CSMT","Sandhurst Road"],"Sandhurst Road":["Masjid","Byculla","Sandhurst Road H"],
+    "Byculla":["Sandhurst Road","Chinchpokli"],"Chinchpokli":["Byculla","Currey Road"],"Currey Road":["Chinchpokli","Parel"],
+    "Parel":["Currey Road","Dadar Central"],"Dadar Central":["Parel","Matunga","Dadar"],"Matunga":["Dadar Central","Sion"],
+    "Sion":["Matunga","Kurla"],"Kurla":["Sion","Vidyavihar","Kurla Harbour"],"Vidyavihar":["Kurla","Ghatkopar"],
+    "Ghatkopar":["Vidyavihar","Vikhroli"],"Vikhroli":["Ghatkopar","Kanjur Marg"],"Kanjur Marg":["Vikhroli","Bhandup"],
+    "Bhandup":["Kanjur Marg","Nahur"],"Nahur":["Bhandup","Mulund"],"Mulund":["Nahur","Thane"],
+    "Thane":["Mulund","Kalwa"],"Kalwa":["Thane","Mumbra"],"Mumbra":["Kalwa","Diva"],"Diva":["Mumbra","Kopar"],
+    "Kopar":["Diva","Dombivli"],"Dombivli":["Kopar","Thakurli"],"Thakurli":["Dombivli","Kalyan"],"Kalyan":["Thakurli"],
+    "CST Harbour":["CSMT","Dockyard Road","Sandhurst Road H"],
+    "Sandhurst Road H":["CST Harbour","Sandhurst Road","Dockyard Road"],"Dockyard Road":["CST Harbour","Reay Road"],
+    "Reay Road":["Dockyard Road","Cotton Green"],"Cotton Green":["Reay Road","Sewri"],"Sewri":["Cotton Green","Wadala Road"],
+    "Wadala Road":["Sewri","GTB Nagar"],"GTB Nagar":["Wadala Road","Chunabhatti"],"Chunabhatti":["GTB Nagar","Kurla Harbour"],
+    "Kurla Harbour":["Chunabhatti","Kurla","Tilak Nagar"],"Tilak Nagar":["Kurla Harbour","Chembur"],"Chembur":["Tilak Nagar","Govandi"],
+    "Govandi":["Chembur","Mankhurd"],"Mankhurd":["Govandi","Vashi"],"Vashi":["Mankhurd","Sanpada"],
+    "Sanpada":["Vashi","Juinagar"],"Juinagar":["Sanpada","Nerul"],"Nerul":["Juinagar","Seawoods"],
+    "Seawoods":["Nerul","Belapur"],"Belapur":["Seawoods","Kharghar"],"Kharghar":["Belapur","Mansarovar"],
+    "Mansarovar":["Kharghar","Khandeshwar"],"Khandeshwar":["Mansarovar","Panvel"],"Panvel":["Khandeshwar"],
+};
+
+const ALL_STATION_NAMES = Object.keys(STATIONS).sort();
+
+// ──────────────────────────────────────────────
+// BFS PATHFINDING
+// ──────────────────────────────────────────────
+function findPath(from, to) {
+    if (!GRAPH[from] || !GRAPH[to]) return null;
+    const visited = new Set([from]);
+    const queue = [[from]];
+    while (queue.length) {
+        const path = queue.shift();
+        const node = path[path.length - 1];
+        if (node === to) return path;
+        for (const nb of (GRAPH[node] || [])) {
+            if (!visited.has(nb)) {
+                visited.add(nb);
+                queue.push([...path, nb]);
+            }
+        }
+    }
+    return null;
+}
+
+function getDelay(hour, stationName) {
+    const base = (Math.sin(stationName.charCodeAt(0)) * 3 + 5);
+    const peak = (hour >= 7 && hour <= 10) || (hour >= 17 && hour <= 20) ? 4 : 0;
+    return +(base + peak + Math.random() * 2).toFixed(1);
+}
+
+// ──────────────────────────────────────────────
+// MAP INIT
+// ──────────────────────────────────────────────
+const map = L.map('map', {
+    center: [19.07, 72.87],
+    zoom: 12,
+    zoomControl: true
+});
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap contributors',
+    maxZoom: 18
+}).addTo(map);
+
+// Draw all lines
+const lineColors = { Western: '#1a73e8', Central: '#ea4335', Harbour: '#34a853' };
+const lineOrder = {
+    Western: ["Churchgate","Marine Lines","Charni Road","Grant Road","Mumbai Central","Mahalaxmi","Lower Parel","Elphinstone Road","Dadar","Matunga Road","Mahim","Bandra","Khar Road","Santacruz","Vile Parle","Andheri","Jogeshwari","Goregaon","Malad","Kandivali","Borivali","Dahisar","Mira Road","Bhayandar","Naigaon","Vasai Road","Nallasopara","Virar"],
+    Central: ["CSMT","Masjid","Sandhurst Road","Byculla","Chinchpokli","Currey Road","Parel","Dadar Central","Matunga","Sion","Kurla","Vidyavihar","Ghatkopar","Vikhroli","Kanjur Marg","Bhandup","Nahur","Mulund","Thane","Kalwa","Mumbra","Diva","Kopar","Dombivli","Thakurli","Kalyan"],
+    Harbour: ["CST Harbour","Dockyard Road","Reay Road","Cotton Green","Sewri","Wadala Road","GTB Nagar","Chunabhatti","Kurla Harbour","Tilak Nagar","Chembur","Govandi","Mankhurd","Vashi","Sanpada","Juinagar","Nerul","Seawoods","Belapur","Kharghar","Mansarovar","Khandeshwar","Panvel"]
+};
+
+for (const [lineName, stops] of Object.entries(lineOrder)) {
+    const coords = stops.map(s => STATIONS[s] ? [STATIONS[s].lat, STATIONS[s].lng] : null).filter(Boolean);
+    L.polyline(coords, { color: lineColors[lineName], weight: 3, opacity: 0.5 }).addTo(map);
+}
+
+// Small dots for all stations
+for (const [name, info] of Object.entries(STATIONS)) {
+    L.circleMarker([info.lat, info.lng], {
+        radius: 4, color: lineColors[info.line], fillColor: 'white',
+        fillOpacity: 1, weight: 2
+    }).bindTooltip(name, { permanent: false, direction: 'top', className: 'station-tooltip' }).addTo(map);
+}
+
+// Route layer
+let routeLayer = null;
+let routeMarkers = [];
+
+function drawRoute(path) {
+    // Clear previous
+    if (routeLayer) map.removeLayer(routeLayer);
+    routeMarkers.forEach(m => map.removeLayer(m));
+    routeMarkers = [];
+
+    const coords = path.map(s => STATIONS[s] ? [STATIONS[s].lat, STATIONS[s].lng] : null).filter(Boolean);
+    if (coords.length < 2) return;
+
+    routeLayer = L.polyline(coords, {
+        color: '#ff6d00', weight: 6, opacity: 0.9,
+        dashArray: null, lineCap: 'round', lineJoin: 'round'
+    }).addTo(map);
+
+    path.forEach((s, i) => {
+        if (!STATIONS[s]) return;
+        const isFirst = i === 0, isLast = i === path.length - 1;
+        const color = isFirst ? '#1a73e8' : isLast ? '#ea4335' : '#ff6d00';
+        const radius = (isFirst || isLast) ? 9 : 6;
+        const m = L.circleMarker([STATIONS[s].lat, STATIONS[s].lng], {
+            radius, color, fillColor: 'white', fillOpacity: 1, weight: 3
+        }).bindPopup(`<b>${s}</b><br>${STATIONS[s].line} Line`).addTo(map);
+        routeMarkers.push(m);
+    });
+
+    map.fitBounds(routeLayer.getBounds(), { padding: [40, 40] });
+}
+
+// ──────────────────────────────────────────────
+// SEARCH DROPDOWNS
+// ──────────────────────────────────────────────
+function buildDropdown(inputId, dropdownId, onSelect) {
+    const input = document.getElementById(inputId);
+    const dropdown = document.getElementById(dropdownId);
+
+    function render(query) {
+        dropdown.innerHTML = '';
+        const matches = ALL_STATION_NAMES.filter(s => s.toLowerCase().includes(query.toLowerCase())).slice(0, 30);
+        matches.forEach(s => {
+            const div = document.createElement('div');
+            div.className = 'dropdown-item';
+            div.textContent = s;
+            div.addEventListener('mousedown', e => {
+                e.preventDefault();
+                input.value = s;
+                dropdown.classList.remove('open');
+                onSelect(s);
+            });
+            dropdown.appendChild(div);
+        });
+        dropdown.classList.toggle('open', matches.length > 0);
+    }
+
+    input.addEventListener('focus', () => render(input.value));
+    input.addEventListener('input', () => render(input.value));
+    document.addEventListener('click', e => {
+        if (!input.contains(e.target) && !dropdown.contains(e.target)) dropdown.classList.remove('open');
+    });
+}
+
+let selectedSrc = '', selectedDst = '';
+buildDropdown('srcInput', 'srcDropdown', v => { selectedSrc = v; });
+buildDropdown('dstInput', 'dstDropdown', v => { selectedDst = v; });
+
+// ──────────────────────────────────────────────
+// PLAN ROUTE
+// ──────────────────────────────────────────────
+function planRoute() {
+    const src = selectedSrc || document.getElementById('srcInput').value.trim();
+    const dst = selectedDst || document.getElementById('dstInput').value.trim();
+    const hour = parseInt(document.getElementById('hourInput').value) || 8;
+
+    if (!STATIONS[src]) { alert('Please select a valid source station from the list.'); return; }
+    if (!STATIONS[dst]) { alert('Please select a valid destination station from the list.'); return; }
+    if (src === dst) { alert('Source and destination cannot be the same.'); return; }
+
+    const path = findPath(src, dst);
+    if (!path) { alert('No route found between these stations.'); return; }
+
+    // Build result
+    const stops = path.map(s => ({
+        station: s,
+        line: STATIONS[s]?.line || 'Unknown',
+        delay: getDelay(hour, s)
+    }));
+    const maxDelay = Math.max(...stops.map(s => s.delay));
+    const totalTime = (path.length - 1) * 3; // ~3 min per stop
+
+    drawRoute(path);
+    renderResult(stops, totalTime, maxDelay);
+}
+
+function renderResult(stops, totalTime, maxDelay) {
+    const panel = document.getElementById('resultPanel');
+    panel.style.display = 'block';
+
+    const stopsHtml = stops.map((s, i) => {
+        const isFirst = i === 0, isLast = i === stops.length - 1;
+        const dotStyle = isFirst ? 'border-color:#1a73e8;background:#1a73e8' : isLast ? 'border-color:#ea4335;background:#ea4335' : '';
+        const lineClass = s.line === 'Western' ? 'western-pill' : s.line === 'Central' ? 'central-pill' : 'harbour-pill';
+        const delayClass = s.delay <= 3 ? 'd-low' : s.delay <= 7 ? 'd-mid' : 'd-high';
+        return `
+        <div class="stop">
+            <div class="stop-left"><div class="stop-dot" style="${dotStyle}"></div></div>
+            <div class="stop-info">
+                <div class="stop-name">${s.station}</div>
+                <div class="stop-line"><span class="line-pill ${lineClass}">${s.line}</span></div>
+            </div>
+            <div class="delay-badge ${delayClass}">+${s.delay} min</div>
+        </div>`;
+    }).join('');
+
+    panel.innerHTML = `
+        <div class="result-summary">
+            <div class="result-route-title">${stops[0].station} → ${stops[stops.length-1].station}</div>
+            <div class="summary-stats">
+                <div class="s-stat"><div class="s-val">${stops.length}</div><div class="s-lbl">Stops</div></div>
+                <div class="s-stat"><div class="s-val">${totalTime} min</div><div class="s-lbl">Travel Time</div></div>
+                <div class="s-stat"><div class="s-val">${maxDelay} min</div><div class="s-lbl">Max Delay</div></div>
+            </div>
+        </div>
+        <div class="stops-title">Route Stops</div>
+        ${stopsHtml}
+    `;
+}
+
 function setHour(h, el) {
     document.getElementById('hourInput').value = h;
     document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
     if (el) el.classList.add('active');
 }
-
-function makeSearchable(inputId, dropdownId, selectId) {
-    const input = document.getElementById(inputId);
-    const dropdown = document.getElementById(dropdownId);
-    const select = document.getElementById(selectId);
-    const items = dropdown.querySelectorAll('.dropdown-item');
-
-    const selected = select.options[select.selectedIndex];
-    if (selected) input.value = selected.text;
-
-    input.addEventListener('focus', () => {
-        dropdown.classList.add('open');
-        input.select();
-    });
-
-    input.addEventListener('input', () => {
-        const query = input.value.toLowerCase();
-        items.forEach(item => {
-            item.style.display = item.textContent.toLowerCase().includes(query) ? 'flex' : 'none';
-        });
-        dropdown.classList.add('open');
-    });
-
-    items.forEach(item => {
-        item.addEventListener('mousedown', (e) => {
-            e.preventDefault();
-            input.value = item.dataset.value;
-            select.value = item.dataset.value;
-            dropdown.classList.remove('open');
-        });
-    });
-
-    document.addEventListener('click', (e) => {
-        if (!input.contains(e.target) && !dropdown.contains(e.target)) {
-            dropdown.classList.remove('open');
-            if (select.value) input.value = select.value;
-        }
-    });
-}
-
-makeSearchable('srcInput', 'srcDropdown', 'srcSelect');
-makeSearchable('dstInput', 'dstDropdown', 'dstSelect');
 </script>
-
 </body>
 </html>
