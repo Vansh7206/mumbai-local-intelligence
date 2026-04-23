@@ -98,8 +98,9 @@ The network is modeled as a weighted graph where nodes = stations and edge weigh
 
 ## Project Structure
 mumbai-local-intelligence/
-├── data/
-│   ├── raw/                    # Original station dataset
+
+├── data/   
+│   ├── raw/                        # Original station dataset
 │   └── processed/              # Cleaned stations, timetable with delays
 ├── notebooks/
 │   ├── 01_data_cleaning.ipynb
