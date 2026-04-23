@@ -6,4 +6,4 @@ xgboost
 requests
 beautifulsoup4
 geopy
-pickle5
+gunicorn
