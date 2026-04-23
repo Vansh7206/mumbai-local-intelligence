@@ -9,8 +9,9 @@ from router import find_route
 
 app = Flask(__name__)
 
-model = pickle.load(open(r"C:\Users\vchan\OneDrive\Desktop\mumbai_local\models\delay_model.pkl", "rb"))
-df = pd.read_csv(r"C:\Users\vchan\OneDrive\Desktop\mumbai_local\data\processed\stations_with_coords.csv")
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+model = pickle.load(open(os.path.join(BASE_DIR, "..", "models", "delay_model.pkl"), "rb"))
+df = pd.read_csv(os.path.join(BASE_DIR, "..", "data", "processed", "stations_with_coords.csv"))
 df = df.dropna(subset=['lat', 'lng'])
 
 station_encoded = {s: i for i, s in enumerate(sorted(df['station'].unique()))}
