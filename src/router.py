@@ -1,8 +1,10 @@
 import pandas as pd
 import networkx as nx
+import os
 
 def build_graph():
-    df = pd.read_csv(r"C:\Users\vchan\OneDrive\Desktop\mumbai_local\data\processed\stations_clean.csv")
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    df = pd.read_csv(os.path.join(BASE_DIR, "..", "data", "processed", "stations_clean.csv"))
     
     G = nx.DiGraph()    #Creating the Network base
     
@@ -30,6 +32,6 @@ def find_route(source, destination):
         return None, None
 
 if __name__ == "__main__":
-    path, time = find_route("Kurla", "CSMT")            #Example testing
+    path, time = find_route("K  urla", "CSMT")            #Example testing
     print("Route:", " → ".join(path))
     print("Total time:", time, "mins")
