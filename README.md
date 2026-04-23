@@ -97,24 +97,31 @@ The network is modeled as a weighted graph where nodes = stations and edge weigh
 ---
 
 ## Project Structure
-mumbai-local-intelligence/
 
-├── data/   
-│   ├── raw/                        # Original station dataset
-│   └── processed/              # Cleaned stations, timetable with delays
+```
+mumbai-local-intelligence/
+│
+├── data/
+│   ├── raw/                         # Original station dataset
+│   └── processed/                   # Cleaned stations, timetable with delays
+│
 ├── notebooks/
 │   ├── 01_data_cleaning.ipynb
 │   ├── 02_timetable_scraper.ipynb
 │   ├── 03_synthetic_timetable.ipynb
 │   ├── 04_eda.ipynb
 │   └── 05_model.ipynb
+│
 ├── models/
-│   └── delay_model.pkl         # Trained XGBoost model
+│   └── delay_model.pkl              # Trained XGBoost model
+│
 ├── src/
-│   └── router.py               # Dijkstra routing engine
-├── app.py                      # Flask application
-└── templates/
-└── index.html              # Frontend map UI
+│   └── router.py                    # Dijkstra routing engine
+│
+├── templates/
+│   └── index.html                   # Frontend map UI
+│
+└── app.py                           # Flask application
 
 ---
 
