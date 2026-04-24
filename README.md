@@ -255,4 +255,4 @@ Visit `http://localhost:5000`
 ## Built By
 
 **Vansh Chandan**
-[LinkedIn](https://linkedin.com/in/your-link) · [Portfolio](https://your-portfolio.com)
+[LinkedIn](https://www.linkedin.com/in/vanshchandan07/) · [Portfolio](https://myportfolio-website-red.vercel.app/)
